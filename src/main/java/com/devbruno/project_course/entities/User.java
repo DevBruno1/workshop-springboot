@@ -3,6 +3,8 @@ package com.devbruno.project_course.entities;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -20,6 +22,9 @@ public class User implements Serializable {
     private String phone;
     @Column(name = "password", length = 200)
     private String password;
+
+    @OneToMany(mappedBy = "user")
+    private List<Order> orders = new ArrayList<>();
 
     public User() {
     }
@@ -71,6 +76,11 @@ public class User implements Serializable {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public List<Order> getOrders() {
+        return orders;
+    }
+
 
     @Override
     public boolean equals(Object o) {
