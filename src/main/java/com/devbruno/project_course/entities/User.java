@@ -1,13 +1,24 @@
 package com.devbruno.project_course.entities;
 
+import jakarta.persistence.*;
+
 import java.io.Serializable;
 import java.util.Objects;
 
+@Entity
+@Table(name = "tb_user")
+
 public class User implements Serializable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(name = "name", length = 150)
     private String name;
+    @Column(name = "email", length = 200)
     private String email;
+    @Column(name = "phone", length = 9)
     private String phone;
+    @Column(name = "password", length = 200)
     private String password;
 
     public User() {
