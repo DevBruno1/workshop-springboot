@@ -1,5 +1,6 @@
 package com.devbruno.project_course.entities;
 
+import com.devbruno.project_course.entities.enums.OrderStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 
@@ -13,6 +14,7 @@ public class Order implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(name = "moment")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
     private Instant moment;
@@ -21,10 +23,13 @@ public class Order implements Serializable {
     @JoinColumn(name = "user_id")
     private User user;
 
-    public Order(Long id, Instant moment, User user) {
+    private Integer orderStatus;
+
+    public Order(Long id, Instant moment, User user, OrderStatus orderStatus) {
         this.id = id;
         this.moment = moment;
         this.user = user;
+        setOrderStatus(orderStatus);
     }
 
     public Order() {
@@ -52,6 +57,16 @@ public class Order implements Serializable {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public OrderStatus getOrderStatus() {
+        return OrderStatus.valueOf(orderStatus);
+    }
+
+    public void setOrderStatus(OrderStatus orderStatus) {
+        if (orderStatus != null){
+            this.orderStatus = orderStatus.getCode();
+        }
     }
 
     @Override
