@@ -2,11 +2,14 @@ package com.devbruno.project_course.entities;
 
 import com.devbruno.project_course.entities.enums.OrderStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "tb_order")
@@ -24,6 +27,9 @@ public class Order implements Serializable {
     private User user;
 
     private Integer orderStatus;
+
+    @OneToMany(mappedBy = "id.order")
+    private Set<OrderItem> items = new HashSet<>();
 
     public Order(Long id, Instant moment, User user, OrderStatus orderStatus) {
         this.id = id;
@@ -67,6 +73,10 @@ public class Order implements Serializable {
         if (orderStatus != null){
             this.orderStatus = orderStatus.getCode();
         }
+    }
+
+    public Set<OrderItem> getItems() {
+        return items;
     }
 
     @Override
